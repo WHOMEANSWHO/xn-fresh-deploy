@@ -1,0 +1,10 @@
+XN FRESH DEPLOY 4.1
+
+1. Extract this entire folder. Do not run it from inside the ZIP.
+2. Keep every file and subfolder together.
+3. Put the folder somewhere writable, such as Documents, Desktop, another drive, or a USB stick.
+4. Double-click XnFreshDeploy.exe.
+5. Windows may ask about SmartScreen on first run — that is normal for unsigned community builds.
+
+Read README.md for profiles, pack library, PC setup, backups, and safety details.
+Verify SHA256SUMS.txt if you received this copy from someone else.

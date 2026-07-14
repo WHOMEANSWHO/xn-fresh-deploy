@@ -1,0 +1,84 @@
+<UserControl x:Class="XnFreshDeploy.LibrarySection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent" FontFamily="Segoe UI">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <Grid Grid.Row="0" Margin="0,0,0,14">
+      <StackPanel>
+        <TextBlock Text="Pack library" FontSize="18" FontWeight="SemiBold"/>
+        <TextBlock Text="Drop folders or ZIPs onto either column. Imports are previewed before anything is copied." Style="{StaticResource Hint}" Margin="0,4,0,0"/>
+      </StackPanel>
+      <Button Content="Open library folder" Style="{StaticResource TextButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Click="OpenFolders_Click"/>
+    </Grid>
+
+    <Grid Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="16"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+
+      <Border x:Name="SoundpackZone" Grid.Column="0" Style="{StaticResource DropZone}" Tag="Soundpack" AllowDrop="True" DragOver="Pack_DragOver" DragEnter="Pack_DragEnter" DragLeave="Pack_DragLeave" Drop="Pack_Drop">
+        <DockPanel>
+          <StackPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+            <TextBlock Text="Soundpacks" FontSize="15" FontWeight="SemiBold"/>
+            <TextBlock Text="Applied to FiveM mods before you connect." Style="{StaticResource Hint}" Margin="0,3,0,0"/>
+          </StackPanel>
+          <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="Import" Style="{StaticResource PrimaryButton}" Tag="Soundpack" Click="Import_Click" Padding="14,8"/>
+            <Button Content="Rename" Style="{StaticResource GhostButton}" Margin="8,0,0,0" Tag="Soundpack" Click="Rename_Click" Padding="12,7"/>
+            <Button Content="Delete" Style="{StaticResource TextButton}" Margin="4,0,0,0" Tag="Soundpack" Click="Delete_Click"/>
+          </StackPanel>
+          <Border DockPanel.Dock="Bottom" Background="{StaticResource SurfaceRaisedBrush}" CornerRadius="8" Padding="14,10" Margin="0,0,0,12" Opacity="0.7">
+            <TextBlock Text="Drop a folder or .zip here" Foreground="{StaticResource MutedBrush}" FontSize="12" HorizontalAlignment="Center"/>
+          </Border>
+          <ListBox x:Name="SoundpackList">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <StackPanel Margin="4,2">
+                  <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="13"/>
+                  <TextBlock Text="{Binding Detail}" Style="{StaticResource Hint}" Margin="0,2,0,0"/>
+                </StackPanel>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+        </DockPanel>
+      </Border>
+
+      <Border x:Name="ReShadeZone" Grid.Column="2" Style="{StaticResource DropZone}" Tag="ReShade" AllowDrop="True" DragOver="Pack_DragOver" DragEnter="Pack_DragEnter" DragLeave="Pack_DragLeave" Drop="Pack_Drop">
+        <DockPanel>
+          <StackPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+            <TextBlock Text="ReShade looks" FontSize="15" FontWeight="SemiBold"/>
+            <TextBlock Text="Preset and shader files switched per profile." Style="{StaticResource Hint}" Margin="0,3,0,0"/>
+          </StackPanel>
+          <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="Import" Style="{StaticResource PrimaryButton}" Tag="ReShade" Click="Import_Click" Padding="14,8"/>
+            <Button Content="Rename" Style="{StaticResource GhostButton}" Margin="8,0,0,0" Tag="ReShade" Click="Rename_Click" Padding="12,7"/>
+            <Button Content="Delete" Style="{StaticResource TextButton}" Margin="4,0,0,0" Tag="ReShade" Click="Delete_Click"/>
+          </StackPanel>
+          <Border DockPanel.Dock="Bottom" Background="{StaticResource SurfaceRaisedBrush}" CornerRadius="8" Padding="14,10" Margin="0,0,0,12" Opacity="0.7">
+            <TextBlock Text="Drop a folder or .zip here" Foreground="{StaticResource MutedBrush}" FontSize="12" HorizontalAlignment="Center"/>
+          </Border>
+          <ListBox x:Name="ReShadeList">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <StackPanel Margin="4,2">
+                  <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="13"/>
+                  <TextBlock Text="{Binding Detail}" Style="{StaticResource Hint}" Margin="0,2,0,0"/>
+                </StackPanel>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+        </DockPanel>
+      </Border>
+    </Grid>
+
+    <TextBlock x:Name="StatusText" Grid.Row="2" Text="Ready" Style="{StaticResource Hint}" Margin="0,12,0,0"/>
+  </Grid>
+</UserControl>

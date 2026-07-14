@@ -1,0 +1,39 @@
+# Build output
+bin/
+obj/
+publish-out/
+.native-integration-*/
+.dotnet-home/
+.nuget-packages/
+
+# Release artifacts (generated locally)
+XnFreshDeploy-v*/
+*.zip
+*.zip.partial.zip
+
+# User/runtime data
+logs/
+settings.json
+Backup/
+.xn-*
+integration-error.txt
+
+# IDE
+.vs/
+.idea/
+*.user
+
+# OS
+Thumbs.db
+desktop.ini
+
+# Secrets
+*.pfx
+*.p12
+
+# Temp
+*.partial
+app-icon-source.png
+
+# Old PowerShell working copies (keep source in XnFreshDeploy/ if needed)
+# XnFreshDeploy-App-*/
