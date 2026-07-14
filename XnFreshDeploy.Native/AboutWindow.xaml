@@ -1,0 +1,34 @@
+<Window x:Class="XnFreshDeploy.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="About" Width="440" Height="420" ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner" Background="{StaticResource BackgroundBrush}"
+        FontFamily="Segoe UI" Icon="pack://application:,,,/app.ico">
+  <Border Style="{StaticResource Card}" Margin="16">
+    <DockPanel>
+      <StackPanel DockPanel.Dock="Bottom" Margin="0,16,0,0">
+        <Button Content="Check for updates" Style="{StaticResource PrimaryButton}" Click="CheckUpdates_Click"/>
+        <UniformGrid Columns="2" Margin="0,10,0,0">
+          <Button Content="Open app folder" Style="{StaticResource GhostButton}" Margin="0,0,6,0" Click="OpenAppFolder_Click"/>
+          <Button Content="Open crash logs" Style="{StaticResource GhostButton}" Margin="6,0,0,0" Click="OpenLogs_Click"/>
+        </UniformGrid>
+        <UniformGrid Columns="2" Margin="0,8,0,0">
+          <Button Content="GitHub releases" Style="{StaticResource TextButton}" Margin="0,0,6,0" Click="OpenReleases_Click"/>
+          <Button Content="Report an issue" Style="{StaticResource TextButton}" Margin="6,0,0,0" Click="ReportIssue_Click"/>
+        </UniformGrid>
+        <Button Content="Show first-run guide" Style="{StaticResource TextButton}" Margin="0,8,0,0" Click="ShowGuide_Click"/>
+        <Button Content="Close" Style="{StaticResource TextButton}" Margin="0,10,0,0" IsCancel="True"/>
+      </StackPanel>
+
+      <StackPanel>
+        <TextBlock Text="Xn Fresh Deploy" FontSize="22" FontWeight="SemiBold"/>
+        <TextBlock x:Name="VersionLabel" Style="{StaticResource Hint}" Margin="0,4,0,0"/>
+        <TextBlock Text="Native Windows app for FiveM profiles, pack switching, and guided PC setup." TextWrapping="Wrap" Margin="0,14,0,0"/>
+        <Border Background="{StaticResource SurfaceRaisedBrush}" CornerRadius="8" Padding="12" Margin="0,14,0,0">
+          <TextBlock x:Name="StatusLabel" TextWrapping="Wrap" Style="{StaticResource Hint}"/>
+        </Border>
+        <TextBlock Text="Portable install — keep the EXE, config, Library, and Drivers together." Style="{StaticResource Hint}" Margin="0,12,0,0"/>
+      </StackPanel>
+    </DockPanel>
+  </Border>
+</Window>

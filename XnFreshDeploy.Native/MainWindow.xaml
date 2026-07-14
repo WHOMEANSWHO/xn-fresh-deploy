@@ -31,7 +31,8 @@
         <Border Style="{StaticResource StatusChip}" Margin="0,0,10,0">
           <TextBlock Text="Canary channel" FontSize="11.5"/>
         </Border>
-        <TextBlock x:Name="VersionText" Text="4.1" Foreground="{StaticResource MutedBrush}" FontSize="11" VerticalAlignment="Center" Cursor="Hand" MouseLeftButtonUp="Version_Click" ToolTip="About Xn Fresh Deploy"/>
+        <Button x:Name="HelpButton" Content="Help" Style="{StaticResource TextButton}" Margin="0,0,8,0" Click="Help_Click"/>
+        <TextBlock x:Name="VersionText" Text="4.1.1" Foreground="{StaticResource MutedBrush}" FontSize="11" VerticalAlignment="Center" Cursor="Hand" MouseLeftButtonUp="Version_Click" ToolTip="About"/>
       </StackPanel>
     </Grid>
 
@@ -78,20 +79,26 @@
           <Grid>
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*"/>
-              <ColumnDefinition Width="10"/>
-              <ColumnDefinition Width="130"/>
-              <ColumnDefinition Width="10"/>
-              <ColumnDefinition Width="150"/>
+              <ColumnDefinition Width="8"/>
+              <ColumnDefinition Width="120"/>
+              <ColumnDefinition Width="8"/>
+              <ColumnDefinition Width="120"/>
+              <ColumnDefinition Width="8"/>
+              <ColumnDefinition Width="140"/>
             </Grid.ColumnDefinitions>
             <StackPanel>
               <TextBlock Text="Search" Style="{StaticResource FieldLabel}"/>
               <TextBox x:Name="ProfileSearchBox" Height="36" TextChanged="ProfileSearch_TextChanged"/>
             </StackPanel>
             <StackPanel Grid.Column="2">
+              <TextBlock Text="Folder" Style="{StaticResource FieldLabel}"/>
+              <ComboBox x:Name="FolderFilterBox" Height="36" SelectionChanged="FolderFilter_SelectionChanged"/>
+            </StackPanel>
+            <StackPanel Grid.Column="4">
               <TextBlock Text="Tag" Style="{StaticResource FieldLabel}"/>
               <ComboBox x:Name="TagFilterBox" Height="36" SelectionChanged="TagFilter_SelectionChanged"/>
             </StackPanel>
-            <StackPanel Grid.Column="4">
+            <StackPanel Grid.Column="6">
               <TextBlock Text="Sort by" Style="{StaticResource FieldLabel}"/>
               <ComboBox x:Name="ProfileSortBox" Height="36" SelectionChanged="ProfileSort_SelectionChanged">
                 <ComboBoxItem Content="Last played"/>
@@ -139,6 +146,7 @@
                         <StackPanel Grid.Column="1">
                           <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="SemiBold"/>
                           <TextBlock Text="{Binding Connect}" Style="{StaticResource Hint}" Margin="0,2,0,0"/>
+                          <Button Content="Copy connect" Style="{StaticResource TextButton}" Tag="{Binding}" Click="CopyConnect_Click" HorizontalAlignment="Left" Padding="0,2,0,0" FontSize="11"/>
                           <TextBlock Text="{Binding LastPlayedText}" Foreground="{StaticResource MutedBrush}" FontSize="11" Margin="0,4,0,0"/>
                           <TextBlock Foreground="{StaticResource AccentBrush}" FontSize="11" Margin="0,2,0,0">
                             <TextBlock.Style>

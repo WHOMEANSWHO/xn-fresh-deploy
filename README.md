@@ -1,12 +1,14 @@
 # Xn Fresh Deploy
 
+[![Build](https://github.com/WHOMEANSWHO/xn-fresh-deploy/actions/workflows/build.yml/badge.svg)](https://github.com/WHOMEANSWHO/xn-fresh-deploy/actions/workflows/build.yml)
+
 Native Windows app for FiveM server profiles, safe soundpack/ReShade switching, startup commands, and guided PC setup.
 
 **No PowerShell. No separate .NET install.** Extract the release ZIP and run `XnFreshDeploy.exe`.
 
 ## Download
 
-**[Download XnFreshDeploy v4.1 (ZIP)](https://github.com/WHOMEANSWHO/xn-fresh-deploy/releases/download/v4.1/XnFreshDeploy-v4.1.zip)** — ~58 MB, Windows 10/11 64-bit
+**[Download XnFreshDeploy v4.1.1 (ZIP)](https://github.com/WHOMEANSWHO/xn-fresh-deploy/releases/latest)** — ~58 MB, Windows 10/11 64-bit
 
 Or browse all releases: https://github.com/WHOMEANSWHO/xn-fresh-deploy/releases
 

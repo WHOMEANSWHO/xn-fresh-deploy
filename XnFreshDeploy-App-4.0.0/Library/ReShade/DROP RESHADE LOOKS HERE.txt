@@ -1,0 +1,3 @@
+Use Pack library inside Xn Fresh Deploy to import a ReShade preset folder or ZIP safely.
+
+The app previews file types and warns about executables, scripts, and DLLs before importing.

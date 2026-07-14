@@ -37,6 +37,7 @@ public partial class MainWindow : Window
     private bool _loadingCommands;
     private bool _loaded;
     private bool _loadingTagFilter;
+    private bool _loadingFolderFilter;
 
     public MainWindow(string[] args)
     {
@@ -55,6 +56,7 @@ public partial class MainWindow : Window
         _toasts = new ToastHost(ToastPanel);
         _args = args;
         _serverDetection = new ServerDetectionService(_serverApi);
+        WindowChrome.ApplyDarkTitleBar(this);
         Loaded += MainWindow_Loaded;
         Closed += MainWindow_Closed;
     }
@@ -110,7 +112,7 @@ public partial class MainWindow : Window
             RestorePreviousButton.IsEnabled = _packs.CanRestorePrevious;
             ResetProfileForm();
             RefreshProfiles();
-            RefreshTagFilter();
+            RefreshFilters();
             UpdateBackupUi();
             UpdateDriverUi();
             UpdateSetupSummary();
@@ -122,6 +124,7 @@ public partial class MainWindow : Window
                 if (profile is not null) await PlayProfileAsync(profile);
             }
 
+            VersionText.Text = AppVersion.Display;
             ShowProfiles();
             UpdateFiveMBadge();
             _ = CheckForUpdatesAsync();
@@ -182,9 +185,11 @@ public partial class MainWindow : Window
         }
     }
 
+    private Task<UpdateInfo?> QueryForUpdatesAsync() => UpdateChecker.CheckAsync();
+
     private async Task CheckForUpdatesAsync()
     {
-        var update = await UpdateChecker.CheckAsync();
+        var update = await QueryForUpdatesAsync();
         if (update is null) return;
         if (string.Equals(_settings.SkippedUpdateVersion, update.Version, StringComparison.OrdinalIgnoreCase)) return;
         _pendingUpdate = update;
@@ -241,12 +246,22 @@ public partial class MainWindow : Window
     {
         if ((sender as FrameworkElement)?.DataContext is not ServerProfile profile) return;
         _selectedProfile = profile;
+        _settings.LastSelectedProfile = profile.Name;
+        AppSettings.Save(_settings);
         if (e.ClickCount >= 2)
         {
             await PlayProfileAsync(profile);
             return;
         }
         Notify($"Selected {profile.Name}. Press Enter to play.", ToastKind.Info);
+    }
+
+    private void FolderFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_loadingFolderFilter || !_loaded) return;
+        _settings.FolderFilter = FolderFilterBox.SelectedItem?.ToString() ?? "";
+        AppSettings.Save(_settings);
+        RefreshProfiles();
     }
 
     private void TagFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -272,7 +287,7 @@ public partial class MainWindow : Window
         try
         {
             var result = LegacyMigrationService.Migrate(sourceDirectory, _profiles, _data);
-            RefreshTagFilter();
+            RefreshFilters();
             RefreshProfiles();
             RefreshLibraries();
             LibrarySectionView.RefreshItems();
@@ -283,15 +298,41 @@ public partial class MainWindow : Window
 
     private void ProfilesNav_Click(object sender, RoutedEventArgs e) => ShowProfiles();
 
-    private void Version_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    private void Version_Click(object sender, MouseButtonEventArgs e)
     {
-        var version = typeof(MainWindow).Assembly.GetName().Version;
-        var text = version is null ? "4.1" : $"{version.Major}.{version.Minor}";
-        MessageBox.Show(this,
-            $"Xn Fresh Deploy {text}\n\nNative Windows app for FiveM profiles, pack switching, and guided PC setup.\n\nNo .NET install required — everything runs from this folder.\n\nKeep the EXE, config files, Library, and Drivers together when moving or sharing.",
-            "About Xn Fresh Deploy",
-            MessageBoxButton.OK,
-            MessageBoxImage.Information);
+        var about = new AboutWindow(QueryForUpdatesAsync) { Owner = this };
+        about.ShowDialog();
+    }
+
+    private void Help_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button button) return;
+        var menu = new ContextMenu { PlacementTarget = button, Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom };
+        menu.Items.Add(Menu("Open app folder", () => OpenFolder(AppPaths.BaseDirectory)));
+        menu.Items.Add(Menu("Open crash logs", () => OpenFolder(Path.Combine(AppPaths.BaseDirectory, "logs"))));
+        menu.Items.Add(Menu("View releases", () => Process.Start(new ProcessStartInfo($"https://github.com/{UpdateChecker.GitHubRepo}/releases") { UseShellExecute = true })));
+        menu.Items.Add(Menu("Report issue", () => Process.Start(new ProcessStartInfo($"https://github.com/{UpdateChecker.GitHubRepo}/issues/new/choose") { UseShellExecute = true })));
+        menu.Items.Add(Menu("First-run guide", () => new FirstRunWindow { Owner = this }.ShowDialog()));
+        menu.Items.Add(Menu("About", () => new AboutWindow(QueryForUpdatesAsync) { Owner = this }.ShowDialog()));
+        menu.IsOpen = true;
+    }
+
+    private static MenuItem Menu(string label, Action action)
+    {
+        var item = new MenuItem { Header = label };
+        item.Click += (_, _) => action();
+        return item;
+    }
+
+    private void CopyConnect_Click(object sender, RoutedEventArgs e)
+    {
+        if ((sender as Button)?.Tag is not ServerProfile profile) return;
+        try
+        {
+            Clipboard.SetText(profile.Connect);
+            Notify($"Copied connect target for {profile.Name}.", ToastKind.Success);
+        }
+        catch (Exception ex) { Notify(ex.Message, ToastKind.Error); }
     }
     private void LibraryNav_Click(object sender, RoutedEventArgs e) => ShowLibrary();
     private void SetupNav_Click(object sender, RoutedEventArgs e) => ShowSetup();
@@ -339,7 +380,10 @@ public partial class MainWindow : Window
         if (query.Length > 0) view = view.Where(x => x.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || x.Connect.Contains(query, StringComparison.OrdinalIgnoreCase));
         var tag = TagFilterBox.SelectedItem?.ToString();
         if (!string.IsNullOrWhiteSpace(tag) && !tag.Equals("All tags", StringComparison.OrdinalIgnoreCase))
-            view = view.Where(x => x.Tags.Any(t => t.Equals(tag, StringComparison.OrdinalIgnoreCase)) || x.Folder.Equals(tag, StringComparison.OrdinalIgnoreCase));
+            view = view.Where(x => x.Tags.Any(t => t.Equals(tag, StringComparison.OrdinalIgnoreCase)));
+        var folder = FolderFilterBox.SelectedItem?.ToString();
+        if (!string.IsNullOrWhiteSpace(folder) && !folder.Equals("All folders", StringComparison.OrdinalIgnoreCase))
+            view = view.Where(x => x.Folder.Equals(folder, StringComparison.OrdinalIgnoreCase));
         var sort = (ProfileSortBox.SelectedItem as ComboBoxItem)?.Content?.ToString();
         view = sort switch
         {
@@ -350,6 +394,8 @@ public partial class MainWindow : Window
         var displayed = view.ToList();
         EmptyProfilesPanel.Visibility = displayed.Count == 0 && query.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
         ProfilesItems.ItemsSource = displayed;
+        if (_selectedProfile is null && !string.IsNullOrWhiteSpace(_settings.LastSelectedProfile))
+            _selectedProfile = displayed.FirstOrDefault(x => x.Name.Equals(_settings.LastSelectedProfile, StringComparison.OrdinalIgnoreCase));
         _readinessCancellation?.Cancel();
         _readinessCancellation?.Dispose();
         _readinessCancellation = new CancellationTokenSource();
@@ -357,17 +403,27 @@ public partial class MainWindow : Window
         UpdateFiveMBadge();
     }
 
-    private void RefreshTagFilter()
+    private void RefreshFilters()
     {
         _loadingTagFilter = true;
-        var tags = _profiles.SelectMany(x => x.Tags).Concat(_profiles.Select(x => x.Folder).Where(x => !string.IsNullOrWhiteSpace(x)))
-            .Select(x => x.Trim()).Where(x => x.Length > 0).Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToList();
-        var items = new List<string> { "All tags" };
-        items.AddRange(tags);
-        var selected = string.IsNullOrWhiteSpace(_settings.TagFilter) ? "All tags" : _settings.TagFilter;
-        TagFilterBox.ItemsSource = items;
-        TagFilterBox.SelectedItem = items.FirstOrDefault(x => x.Equals(selected, StringComparison.OrdinalIgnoreCase)) ?? "All tags";
+        _loadingFolderFilter = true;
+        var tags = _profiles.SelectMany(x => x.Tags).Select(x => x.Trim()).Where(x => x.Length > 0)
+            .Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToList();
+        var tagItems = new List<string> { "All tags" };
+        tagItems.AddRange(tags);
+        var selectedTag = string.IsNullOrWhiteSpace(_settings.TagFilter) ? "All tags" : _settings.TagFilter;
+        TagFilterBox.ItemsSource = tagItems;
+        TagFilterBox.SelectedItem = tagItems.FirstOrDefault(x => x.Equals(selectedTag, StringComparison.OrdinalIgnoreCase)) ?? "All tags";
+
+        var folders = _profiles.Select(x => x.Folder).Where(x => !string.IsNullOrWhiteSpace(x))
+            .Select(x => x.Trim()).Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToList();
+        var folderItems = new List<string> { "All folders" };
+        folderItems.AddRange(folders);
+        var selectedFolder = string.IsNullOrWhiteSpace(_settings.FolderFilter) ? "All folders" : _settings.FolderFilter;
+        FolderFilterBox.ItemsSource = folderItems;
+        FolderFilterBox.SelectedItem = folderItems.FirstOrDefault(x => x.Equals(selectedFolder, StringComparison.OrdinalIgnoreCase)) ?? "All folders";
         _loadingTagFilter = false;
+        _loadingFolderFilter = false;
     }
 
     private async Task RefreshServerStatusesAsync(IReadOnlyCollection<ServerProfile> profiles, CancellationToken cancellationToken)
@@ -559,7 +615,7 @@ public partial class MainWindow : Window
             }
             ResetProfileForm();
             RefreshProfiles();
-            RefreshTagFilter();
+            RefreshFilters();
             await Task.CompletedTask;
         }
         catch (Exception ex) { Notify(ex.Message, ToastKind.Error); }
@@ -604,7 +660,7 @@ public partial class MainWindow : Window
             _profiles.Add(profile.Clone(name));
             _data.SaveProfiles(_profiles);
             RefreshProfiles();
-            RefreshTagFilter();
+            RefreshFilters();
             ProfileStatusText.Text = $"Duplicated as {name}.";
         }));
         menu.Items.Add(CreateProfileMenuItem("Remove", () =>
@@ -614,7 +670,7 @@ public partial class MainWindow : Window
             _data.SaveProfiles(_profiles);
             try { ShortcutService.DeleteIfPresent(profile.Name); } catch { }
             RefreshProfiles();
-            RefreshTagFilter();
+            RefreshFilters();
             ProfileStatusText.Text = $"Removed {profile.Name}.";
         }));
         menu.IsOpen = true;
@@ -639,7 +695,7 @@ public partial class MainWindow : Window
             profile.LastPlayed = DateTimeOffset.UtcNow;
             _data.SaveProfiles(_profiles);
             RefreshProfiles();
-            RefreshTagFilter();
+            RefreshFilters();
             ProfileStatusText.Text = $"Connecting to {profile.Name}.";
             UiChrome.Pulse(ProfileStatusText);
         }
@@ -756,7 +812,7 @@ public partial class MainWindow : Window
                 _data.SaveProfiles(_profiles);
                 RefreshLibraries();
                 RefreshProfiles();
-            RefreshTagFilter();
+            RefreshFilters();
                 ProfileStatusText.Text = $"Imported {imported.Profiles.Count} profiles, {imported.SoundpackCount} soundpacks, and {imported.ReShadeCount} ReShade looks.";
                 return;
             }
@@ -768,7 +824,7 @@ public partial class MainWindow : Window
             }
             _data.SaveProfiles(_profiles);
             RefreshProfiles();
-            RefreshTagFilter();
+            RefreshFilters();
             ProfileStatusText.Text = $"Imported {added} profile(s).";
         }
         catch (Exception ex) { ProfileStatusText.Text = ex.Message; }

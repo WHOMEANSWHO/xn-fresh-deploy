@@ -29,11 +29,11 @@ jobs:
 
       - name: Package release ZIP
         shell: pwsh
-        run: ./Build-NativeRelease.ps1 -Version 4.1 -SkipIntegrationTest
+        run: ./Build-NativeRelease.ps1 -Version 4.1.1 -SkipIntegrationTest
 
       - name: Upload built ZIP
         uses: actions/upload-artifact@v4
         with:
           name: XnFreshDeploy-v4.1-windows-x64
-          path: XnFreshDeploy-v4.1.zip
+          path: XnFreshDeploy-v4.1.1.zip
           retention-days: 90

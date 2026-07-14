@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Xn Fresh Deploy - Guided Setup</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Custom Scrollbar for technical feel */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #2d3449; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4a4455; }
+    </style>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#acedff",
+                        "surface-tint": "#d2bbff",
+                        "on-tertiary-container": "#76ffc2",
+                        "on-error": "#690005",
+                        "surface-container": "#171f33",
+                        "surface-container-highest": "#2d3449",
+                        "on-error-container": "#ffdad6",
+                        "primary": "#d2bbff",
+                        "on-surface-variant": "#ccc3d8",
+                        "error": "#ffb4ab",
+                        "on-surface": "#dae2fd",
+                        "on-secondary-fixed": "#001f26",
+                        "surface-container-low": "#131b2e",
+                        "surface-container-high": "#222a3d",
+                        "secondary": "#4cd7f6",
+                        "surface-bright": "#31394d",
+                        "inverse-on-surface": "#283044",
+                        "outline": "#958da1",
+                        "primary-fixed-dim": "#d2bbff",
+                        "secondary-container": "#03b5d3",
+                        "inverse-primary": "#732ee4",
+                        "inverse-surface": "#dae2fd",
+                        "surface-dim": "#0b1326",
+                        "primary-fixed": "#eaddff",
+                        "tertiary": "#4edea3",
+                        "on-tertiary-fixed": "#002113",
+                        "primary-container": "#7c3aed",
+                        "outline-variant": "#4a4455",
+                        "surface-variant": "#2d3449",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "background": "#0b1326",
+                        "error-container": "#93000a",
+                        "on-secondary": "#003640",
+                        "tertiary-container": "#007650",
+                        "on-primary-fixed": "#25005a",
+                        "secondary-fixed-dim": "#4cd7f6",
+                        "on-secondary-fixed-variant": "#004e5c",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "tertiary-fixed": "#6ffbbe",
+                        "surface-container-lowest": "#060e20",
+                        "on-background": "#dae2fd",
+                        "on-tertiary": "#003824",
+                        "surface": "#0b1326",
+                        "on-secondary-container": "#00424e",
+                        "on-primary-fixed-variant": "#5a00c6",
+                        "on-primary": "#3f008e",
+                        "on-primary-container": "#ede0ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "gutter": "16px",
+                        "window_padding": "24px",
+                        "base": "4px",
+                        "xs": "8px",
+                        "lg": "24px",
+                        "sm": "12px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "title-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-caps": ["JetBrains Mono"],
+                        "mono-data": ["JetBrains Mono"],
+                        "display-lg": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "title-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "mono-data": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen overflow-hidden flex flex-col items-center justify-center">
+<!-- Simulated Window Container for requested 1180x840 feel -->
+<div class="w-full max-w-[1180px] h-[840px] bg-background border border-white/10 shadow-2xl rounded-xl relative overflow-hidden flex flex-col">
+<!-- TOP NAV BAR (From JSON) -->
+<nav class="bg-surface-container dark:bg-surface-container w-full h-16 border-b border-white/10 backdrop-blur-md shadow-sm flex justify-between items-center px-lg fixed top-0 z-50 absolute w-full">
+<div class="flex items-center gap-lg">
+<span class="font-display-lg text-display-lg text-primary dark:text-primary tracking-tighter">Xn Fresh Deploy</span>
+<div class="hidden md:flex gap-xs ml-xl h-full items-end pb-0">
+<!-- Active: Dashboard -->
+<a class="text-secondary-fixed font-bold border-b-2 border-secondary-fixed pb-4 px-md hover:bg-white/5 transition-all duration-200 active:scale-95 transition-transform font-body-md text-body-md" href="#">Dashboard</a>
+<a class="text-on-surface-variant font-medium hover:text-on-surface transition-colors pb-4 px-md hover:bg-white/5 transition-all duration-200 active:scale-95 transition-transform font-body-md text-body-md" href="#">Utilities</a>
+<a class="text-on-surface-variant font-medium hover:text-on-surface transition-colors pb-4 px-md hover:bg-white/5 transition-all duration-200 active:scale-95 transition-transform font-body-md text-body-md" href="#">Driver Pack</a>
+<a class="text-on-surface-variant font-medium hover:text-on-surface transition-colors pb-4 px-md hover:bg-white/5 transition-all duration-200 active:scale-95 transition-transform font-body-md text-body-md" href="#">Security</a>
+<a class="text-on-surface-variant font-medium hover:text-on-surface transition-colors pb-4 px-md hover:bg-white/5 transition-all duration-200 active:scale-95 transition-transform font-body-md text-body-md" href="#">Settings</a>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<!-- Search on right per JSON -->
+<div class="relative bg-surface-container-high rounded-full px-sm py-xs flex items-center border border-white/5">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">search</span>
+<input class="bg-transparent border-none outline-none text-on-surface font-body-sm text-body-sm w-32 focus:ring-0 ml-xs" placeholder="Search" type="text"/>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/5 transition-all duration-200 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/5 transition-all duration-200 active:scale-95 transition-transform bg-primary-container/20 border border-primary/20">
+<span class="material-symbols-outlined text-primary">person</span>
+</button>
+</div>
+</nav>
+<div class="flex flex-1 pt-16 h-full w-full relative">
+<!-- SIDE NAV BAR (From JSON) -->
+<aside class="bg-surface-container-low dark:bg-surface-container-low text-secondary dark:text-secondary h-full w-64 border-r border-white/5 flex flex-col py-md gap-xs shrink-0 z-40 overflow-y-auto">
+<div class="px-md mb-lg mt-sm flex items-center gap-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container border border-white/10 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A detailed headshot portrait of a professional system administrator in a high-tech server room setting. The lighting is cool and blue-tinted, emphasizing a modern, technical aesthetic. The subject looks focused and confident, wearing dark minimal clothing. The mood is serious and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw_uAZFJ7jweDS7jx1lXf-RAvUXCWv3uxrQsnrqb6RTqfZbY7MRgiaafqy6EQaYJa2v-19gIfVY9N9l7tOUYTQ6wWY4yqb_cG-DM8uFIzCqxzEmLfZJ9ZPJMvIZwC-rG8z3ZD-rlhuE0i1t8hj9LRw3rgsBEzlnelEH2VlpcstfMcrW0yWJCxdkVl5xIBULMpI01ShM8hRjr1z0Z4B7jnsAVNjw0BmVilVM6XXQv3aI4MenIAgTAwIt3HJc6El9HgxZcAxr6HYs-E"/>
+</div>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">System Admin</div>
+<div class="font-label-caps text-label-caps text-secondary/70">Xn Premium Tier</div>
+</div>
+</div>
+<div class="px-sm flex flex-col gap-base flex-1">
+<!-- Active: Deployment -->
+<div class="flex items-center gap-sm px-md py-sm bg-primary-container text-on-primary-container rounded-lg font-bold cursor-pointer font-label-caps text-label-caps">
+<span class="material-symbols-outlined icon-fill">rocket_launch</span>
+                        Deployment
+                    </div>
+<div class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg cursor-pointer font-label-caps text-label-caps">
+<span class="material-symbols-outlined">speed</span>
+                        Optimization
+                    </div>
+<div class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg cursor-pointer font-label-caps text-label-caps">
+<span class="material-symbols-outlined">settings_input_component</span>
+                        Drivers
+                    </div>
+<div class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg cursor-pointer font-label-caps text-label-caps">
+<span class="material-symbols-outlined">delete_sweep</span>
+                        Cleanup
+                    </div>
+<div class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg cursor-pointer font-label-caps text-label-caps">
+<span class="material-symbols-outlined">memory</span>
+                        Hardware
+                    </div>
+</div>
+<div class="px-md mt-auto mb-md">
+<button class="w-full bg-primary-container text-on-primary-container hover:bg-primary-container/90 rounded-lg py-sm font-label-caps text-label-caps uppercase tracking-wider transition-colors shadow-[0_0_15px_rgba(124,58,237,0.2)]">Deploy Now</button>
+</div>
+<div class="px-sm border-t border-white/5 pt-sm flex flex-col gap-base">
+<div class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg cursor-pointer font-label-caps text-label-caps">
+<span class="material-symbols-outlined">help</span>
+                        Support
+                    </div>
+<div class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-lg cursor-pointer font-label-caps text-label-caps">
+<span class="material-symbols-outlined">history</span>
+                        Logs
+                    </div>
+</div>
+</aside>
+<!-- MAIN CONTENT AREA -->
+<main class="flex-1 overflow-y-auto overflow-x-hidden relative pb-24 scroll-smooth">
+<!-- Inner Grid Layout -->
+<div class="grid grid-cols-12 gap-lg p-window_padding max-w-[1400px] mx-auto min-h-full">
+<!-- LEFT COLUMN (Scrollable Canvas) -->
+<div class="col-span-8 flex flex-col gap-lg pb-xl">
+<!-- 1. Setup Overview Header -->
+<div class="flex flex-col gap-sm">
+<div class="flex justify-between items-start">
+<div>
+<h1 class="font-headline-md text-headline-md text-on-surface mb-xs">Set up this PC</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-lg">Customize your fresh installation. Select essential applications, optimize gaming performance, and secure your driver ecosystem before final deployment.</p>
+</div>
+<div class="bg-tertiary-container/20 border border-tertiary-container text-tertiary px-sm py-base rounded-full flex items-center gap-xs font-mono-data text-mono-data">
+<div class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
+                                    System Ready
+                                </div>
+</div>
+<!-- Hardware Summary -->
+<div class="flex gap-md mt-sm">
+<div class="bg-surface-container border border-white/5 rounded-lg p-sm flex items-center gap-sm pr-lg">
+<span class="material-symbols-outlined text-secondary">memory</span>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant">CPU</div>
+<div class="font-mono-data text-mono-data text-on-surface">Ryzen 9 7950X</div>
+</div>
+</div>
+<div class="bg-surface-container border border-white/5 rounded-lg p-sm flex items-center gap-sm pr-lg">
+<span class="material-symbols-outlined text-secondary">developer_board</span>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant">GPU</div>
+<div class="font-mono-data text-mono-data text-on-surface">RTX 4080</div>
+</div>
+</div>
+<div class="bg-surface-container border border-white/5 rounded-lg p-sm flex items-center gap-sm pr-lg">
+<span class="material-symbols-outlined text-secondary">window</span>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant">OS</div>
+<div class="font-mono-data text-mono-data text-on-surface">Windows 11 Pro</div>
+</div>
+</div>
+</div>
+<!-- Action Row -->
+<div class="flex items-center gap-md mt-sm border-b border-white/10 pb-md">
+<button class="bg-surface-container-high hover:bg-surface-bright border border-white/10 text-on-surface font-mono-data text-mono-data px-md py-sm rounded-lg transition-colors flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">auto_fix_high</span>
+                                    Recommended setup
+                                </button>
+<button class="text-on-surface-variant hover:text-error transition-colors font-mono-data text-mono-data text-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">clear_all</span>
+                                    Clear selection
+                                </button>
+<div class="ml-auto flex items-center gap-xs font-mono-data text-mono-data text-secondary">
+<span class="text-xl font-bold">14</span> tasks selected
+                                </div>
+</div>
+</div>
+<!-- 2. Categorized Setup Cards (Expandable Component Pattern) -->
+<div class="flex flex-col gap-sm">
+<!-- Essential Apps Card -->
+<div class="bg-surface-container/50 border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition-colors">
+<button class="w-full flex items-center justify-between p-md bg-surface-container-low hover:bg-surface-container transition-colors text-left group" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.chevron').classList.toggle('rotate-180')">
+<div class="flex items-center gap-md">
+<div class="w-8 h-8 rounded bg-primary-container/20 flex items-center justify-center text-primary group-hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-[20px]">apps</span>
+</div>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">Essential Apps</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Browsers, compression, and basic utilities.</div>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="bg-secondary/10 text-secondary font-label-caps text-label-caps px-sm py-base rounded-full">3 selected</span>
+<span class="material-symbols-outlined chevron transition-transform duration-200 text-on-surface-variant">expand_more</span>
+</div>
+</button>
+<!-- Content Body -->
+<div class="p-md flex flex-col gap-xs bg-surface/30 border-t border-white/5">
+<!-- App Row Item -->
+<label class="flex items-center justify-between p-sm rounded-lg hover:bg-white/5 cursor-pointer transition-colors border border-transparent hover:border-white/5 group">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface">language</span>
+<div>
+<div class="font-mono-data text-mono-data text-on-surface">Brave Browser</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Privacy-focused web browser</div>
+</div>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-5 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container shadow-[0_0_10px_rgba(124,58,237,0)] peer-checked:shadow-[0_0_10px_rgba(124,58,237,0.4)]"></div>
+</div>
+</label>
+<label class="flex items-center justify-between p-sm rounded-lg hover:bg-white/5 cursor-pointer transition-colors border border-transparent hover:border-white/5 group">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface">folder_zip</span>
+<div>
+<div class="font-mono-data text-mono-data text-on-surface">7-Zip</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">File archiver with high compression</div>
+</div>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-5 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</div>
+</label>
+</div>
+</div>
+<!-- Drivers Card (Expanded by default for visual interest) -->
+<div class="bg-surface-container/50 border border-secondary/20 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(76,215,246,0.05)]">
+<button class="w-full flex items-center justify-between p-md bg-secondary/5 hover:bg-secondary/10 transition-colors text-left group" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.chevron').classList.toggle('rotate-180')">
+<div class="flex items-center gap-md">
+<div class="w-8 h-8 rounded bg-secondary/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">settings_input_component</span>
+</div>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">Graphics Drivers</div>
+<div class="font-body-sm text-body-sm text-secondary/80">Critical system components detected.</div>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="bg-error/20 text-error font-label-caps text-label-caps px-sm py-base rounded-full flex items-center gap-xs"><span class="material-symbols-outlined text-[14px]">warning</span> Pending</span>
+<span class="material-symbols-outlined chevron rotate-180 transition-transform duration-200 text-on-surface-variant">expand_more</span>
+</div>
+</button>
+<div class="p-md flex flex-col gap-sm bg-surface/30 border-t border-white/5">
+<div class="bg-surface-container-low border border-white/10 rounded-lg p-md">
+<div class="flex justify-between items-start mb-sm">
+<div>
+<div class="font-mono-data text-mono-data text-on-surface">NVIDIA GeForce RTX 4080</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Recommended: Studio Driver 546.01</div>
+</div>
+<div class="bg-surface-container border border-white/10 px-xs py-base rounded text-xs font-mono-data text-on-surface-variant">Local Package Found</div>
+</div>
+<div class="flex gap-sm">
+<button class="bg-surface-container-high hover:bg-surface-bright border border-white/10 text-on-surface font-mono-data text-mono-data px-md py-sm rounded-lg transition-colors flex-1 flex justify-center items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">folder</span>
+                                                Browse Local
+                                            </button>
+<button class="border border-secondary/50 text-secondary hover:bg-secondary/10 font-mono-data text-mono-data px-md py-sm rounded-lg transition-colors flex-1">
+                                                Download Latest
+                                            </button>
+</div>
+<div class="mt-sm flex items-start gap-xs text-error/90 bg-error/10 p-sm rounded border border-error/20">
+<span class="material-symbols-outlined text-[16px] mt-0.5">error</span>
+<p class="font-body-sm text-body-sm">Screen may flicker during installation. Ensure all work is saved.</p>
+</div>
+</div>
+<div class="flex justify-end">
+<label class="flex items-center gap-sm cursor-pointer text-on-surface-variant hover:text-on-surface">
+<span class="font-body-sm text-body-sm">Skip driver installation</span>
+<div class="relative inline-flex items-center">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-8 h-4 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-error"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Prominent FiveM/ReShade Card (Bento Style Sub-grid) -->
+<div class="grid grid-cols-2 gap-sm mt-sm">
+<!-- FiveM -->
+<div class="bg-surface-container-low border border-primary/20 rounded-xl p-md flex flex-col justify-between relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div>
+<div class="flex justify-between items-start mb-xs relative z-10">
+<div class="font-title-sm text-title-sm text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary">sports_esports</span> FiveM
+                                            </div>
+<span class="bg-primary/20 text-primary font-label-caps text-label-caps px-sm py-base rounded-full">Installed</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mb-md relative z-10">Unstable channel active. Last update: Today.</div>
+</div>
+<div class="flex gap-xs relative z-10">
+<button class="flex-1 bg-surface-container border border-white/10 hover:border-primary/50 text-on-surface font-mono-data text-mono-data py-sm rounded-lg transition-colors text-center text-xs">Repair</button>
+<button class="flex-1 bg-surface-container border border-white/10 hover:border-white/30 text-on-surface font-mono-data text-mono-data py-sm rounded-lg transition-colors text-center text-xs flex justify-center items-center"><span class="material-symbols-outlined text-[16px]">folder_open</span></button>
+</div>
+</div>
+<!-- ReShade -->
+<div class="bg-surface-container-low border border-white/5 rounded-xl p-md flex flex-col justify-between relative">
+<div>
+<div class="flex justify-between items-start mb-xs">
+<div class="font-title-sm text-title-sm text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary">tune</span> ReShade
+                                            </div>
+<span class="bg-error/20 text-error font-label-caps text-label-caps px-sm py-base rounded-full">Update Req</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mb-md">Version 5.9.2 detected. 6.0 available.</div>
+</div>
+<div class="flex gap-xs">
+<button class="flex-1 bg-secondary/10 border border-secondary/30 hover:bg-secondary/20 text-secondary font-mono-data text-mono-data py-sm rounded-lg transition-colors text-center text-xs">Update</button>
+<button class="px-sm bg-surface-container border border-white/10 hover:border-error/50 hover:text-error text-on-surface-variant font-mono-data text-mono-data py-sm rounded-lg transition-colors text-center text-xs flex justify-center items-center"><span class="material-symbols-outlined text-[16px]">delete</span></button>
+</div>
+</div>
+</div>
+<!-- Backup & Restore -->
+<div class="bg-surface-container/50 border border-white/5 rounded-xl overflow-hidden mt-sm">
+<div class="w-full flex items-center justify-between p-md bg-surface-container-low border-b border-white/5">
+<div class="flex items-center gap-md">
+<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">settings_backup_restore</span>
+</div>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">Backup State</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Last backup: 24GB • 2 days ago</div>
+</div>
+</div>
+<button class="bg-surface-container-high hover:bg-surface-bright border border-white/10 text-on-surface font-mono-data text-mono-data px-md py-sm rounded-lg transition-colors flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">add</span> Create
+                                    </button>
+</div>
+<div class="p-md flex items-center justify-between bg-surface/30">
+<div class="flex items-start gap-sm max-w-sm">
+<span class="material-symbols-outlined text-error mt-0.5">lock_person</span>
+<div>
+<div class="font-mono-data text-mono-data text-on-surface">Password Export</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Browsers require manual password export. They are not included in this snapshot.</div>
+</div>
+</div>
+<label class="flex items-center gap-sm cursor-pointer text-on-surface">
+<span class="font-mono-data text-mono-data">Restore</span>
+<div class="relative inline-flex items-center">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-5 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN (Sticky Review Panel) -->
+<div class="col-span-4 relative">
+<div class="sticky top-sm bg-surface-container-low border border-white/10 rounded-xl p-md flex flex-col h-[calc(100vh-140px)] shadow-lg">
+<h2 class="font-title-sm text-title-sm text-on-surface border-b border-white/10 pb-sm mb-sm flex justify-between items-center">
+                                Deployment Summary
+                                <span class="bg-primary/20 text-primary font-mono-data text-mono-data px-xs py-base rounded text-xs">Ready</span>
+</h2>
+<!-- Item List -->
+<div class="flex-1 overflow-y-auto pr-xs flex flex-col gap-xs font-mono-data text-mono-data text-on-surface-variant mb-md">
+<div class="flex justify-between items-center py-xs border-b border-white/5">
+<span>Essential Apps</span> <span class="text-on-surface">3 items</span>
+</div>
+<div class="flex justify-between items-center py-xs border-b border-white/5">
+<span>Gaming Setup</span> <span class="text-on-surface">FiveM, Steam</span>
+</div>
+<div class="flex justify-between items-center py-xs border-b border-white/5 text-secondary">
+<span>Graphics Driver</span> <span>Studio 546.01</span>
+</div>
+<div class="flex justify-between items-center py-xs border-b border-white/5">
+<span>Win Tweaks</span> <span class="text-on-surface">8 active</span>
+</div>
+</div>
+<!-- Status / Info Box -->
+<div class="bg-surface-container border border-white/5 rounded-lg p-sm mb-md">
+<div class="flex items-center gap-xs text-error mb-xs">
+<span class="material-symbols-outlined text-[16px]">admin_panel_settings</span>
+<span class="font-label-caps text-label-caps">Admin Rights Required</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">UAC prompts will appear during installation. Estimated time: 14 mins.</p>
+</div>
+<!-- Primary Action -->
+<button class="w-full bg-primary-container hover:bg-primary-container/90 text-on-primary-container font-headline-md text-headline-md py-md rounded-xl transition-all shadow-[0_0_20px_rgba(124,58,237,0.3)] hover:shadow-[0_0_30px_rgba(124,58,237,0.5)] active:scale-95 flex justify-center items-center gap-sm">
+<span class="material-symbols-outlined icon-fill">power_settings_new</span>
+                                Start PC Setup
+                            </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- FOOTER (From JSON) -->
+<footer class="bg-surface-container/80 dark:bg-surface-container/80 text-primary dark:text-primary font-body-sm text-body-sm fixed bottom-0 right-0 w-[calc(100%-16rem)] h-20 backdrop-blur-xl border-t border-white/10 flex justify-between items-center px-xl z-40 absolute">
+<div>
+<span class="font-label-caps text-label-caps text-secondary mr-md">Xn Fresh Deploy</span>
+<span class="text-on-surface-variant">© 2024 Xn Fresh Deploy. Technical Excellence Guaranteed.</span>
+</div>
+<div class="flex gap-lg">
+<a class="text-on-surface-variant hover:text-primary hover:underline transition-all duration-300" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary hover:underline transition-all duration-300" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary hover:underline transition-all duration-300" href="#">System Requirements</a>
+</div>
+</footer>
+</div>
+</body></html>

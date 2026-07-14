@@ -1,5 +1,18 @@
 # Changelog
 
+## 4.1.1 — 2026-07-15
+
+### Added
+- Single-instance lock (prevents two copies fighting over FiveM packs)
+- About window with update check, logs folder, GitHub links
+- Help menu in header
+- Copy connect button on profile cards
+- Folder filter separate from tag filter
+- Library search
+- Windows 11 dark title bar
+- Remember last selected profile
+- GitHub issue templates, Dependabot, CI badge
+
 ## 4.1.0 — 2026-07-15
 
 ### Added

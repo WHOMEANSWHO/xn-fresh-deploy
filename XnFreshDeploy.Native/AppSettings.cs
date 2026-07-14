@@ -12,6 +12,8 @@ public sealed class UserSettings
     public double WindowWidth { get; set; } = 1160;
     public double WindowHeight { get; set; } = 820;
     public string TagFilter { get; set; } = "";
+    public string FolderFilter { get; set; } = "";
+    public string? LastSelectedProfile { get; set; }
     public string? SkippedUpdateVersion { get; set; }
 }
 

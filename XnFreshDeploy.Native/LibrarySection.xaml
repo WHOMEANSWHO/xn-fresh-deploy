@@ -13,6 +13,8 @@
       <StackPanel>
         <TextBlock Text="Pack library" FontSize="18" FontWeight="SemiBold"/>
         <TextBlock Text="Drop folders or ZIPs onto either column. Imports are previewed before anything is copied." Style="{StaticResource Hint}" Margin="0,4,0,0"/>
+        <TextBlock Text="Search" Style="{StaticResource FieldLabel}" Margin="0,12,0,0"/>
+        <TextBox x:Name="LibrarySearchBox" Height="34" TextChanged="LibrarySearch_TextChanged"/>
       </StackPanel>
       <Button Content="Open library folder" Style="{StaticResource TextButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Click="OpenFolders_Click"/>
     </Grid>

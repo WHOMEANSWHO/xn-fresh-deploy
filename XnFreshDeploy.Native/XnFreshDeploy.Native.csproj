@@ -13,9 +13,9 @@
     <Product>Xn Fresh Deploy</Product>
     <Description>FiveM server profiles, safe pack switching, and guided PC setup.</Description>
     <Authors>Xn Fresh Deploy</Authors>
-    <Version>4.1.0</Version>
-    <FileVersion>4.1.0.0</FileVersion>
-    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <Version>4.1.1</Version>
+    <FileVersion>4.1.1.0</FileVersion>
+    <AssemblyVersion>4.1.1.0</AssemblyVersion>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <SelfContained>true</SelfContained>
     <PublishSingleFile>true</PublishSingleFile>

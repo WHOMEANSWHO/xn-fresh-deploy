@@ -39,6 +39,13 @@ public partial class App : Application
             catch { Shutdown(1); }
             return;
         }
+
+        if (!SingleInstance.TryStart(e.Args))
+        {
+            Shutdown(0);
+            return;
+        }
+
         var splash = new SplashWindow();
         splash.Show();
         var window = new MainWindow(e.Args);

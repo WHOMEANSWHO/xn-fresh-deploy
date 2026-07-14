@@ -12,6 +12,8 @@ public partial class LibrarySection : UserControl
     private readonly LibraryService _library = new();
     private DataService? _data;
     private IList<ServerProfile>? _profiles;
+    private List<LibraryEntry> _soundpacks = [];
+    private List<LibraryEntry> _reshade = [];
 
     public LibrarySection() => InitializeComponent();
 
@@ -25,8 +27,21 @@ public partial class LibrarySection : UserControl
     public void RefreshItems()
     {
         if (_profiles is null) return;
-        SoundpackList.ItemsSource = _library.GetEntries(LibraryKind.Soundpack, _profiles);
-        ReShadeList.ItemsSource = _library.GetEntries(LibraryKind.ReShade, _profiles);
+        _soundpacks = _library.GetEntries(LibraryKind.Soundpack, _profiles);
+        _reshade = _library.GetEntries(LibraryKind.ReShade, _profiles);
+        ApplyLibraryFilter();
+    }
+
+    private void LibrarySearch_TextChanged(object sender, TextChangedEventArgs e) => ApplyLibraryFilter();
+
+    private void ApplyLibraryFilter()
+    {
+        var query = LibrarySearchBox?.Text.Trim() ?? "";
+        bool Match(LibraryEntry entry) => query.Length == 0 ||
+            entry.Name.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+            entry.Detail.Contains(query, StringComparison.OrdinalIgnoreCase);
+        SoundpackList.ItemsSource = _soundpacks.Where(Match).ToList();
+        ReShadeList.ItemsSource = _reshade.Where(Match).ToList();
     }
 
     private async void Import_Click(object sender, RoutedEventArgs e)
