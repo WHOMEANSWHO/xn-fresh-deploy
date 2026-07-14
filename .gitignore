@@ -11,6 +11,16 @@ XnFreshDeploy-v*/
 *.zip
 *.zip.partial.zip
 
+# Old PowerShell distro / local copies — not source
+XnFreshDeploy-App-*/
+XnFreshDeploy/
+Xn-Setup.ps1
+
+# Design previews and local tooling
+stitch_*/
+.native-*/
+.appdata/
+
 # User/runtime data
 logs/
 settings.json

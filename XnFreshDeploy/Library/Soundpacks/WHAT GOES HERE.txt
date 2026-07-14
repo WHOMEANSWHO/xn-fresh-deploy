@@ -1,1 +1,0 @@
-Each subfolder is one soundpack. Put only the trusted files that belong in FiveM's mods folder inside it, such as .rpf packs. You can also import folders through Pack library.

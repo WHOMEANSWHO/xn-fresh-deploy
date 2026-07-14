@@ -1,1 +1,0 @@
-Each subfolder is one ReShade look: preset INI files and any look-specific files. Manage the base DLL and shared shaders with ReShade manager. Do not add dxgi.dll or d3d11.dll here.

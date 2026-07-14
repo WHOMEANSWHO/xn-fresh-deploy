@@ -1,1 +1,0 @@
-Optional: place trusted driver packages here (.zip, .7z, .rar, .exe, or .msi). The Drivers switch turns on when a supported package is present. Archives are unpacked and installers run one at a time.

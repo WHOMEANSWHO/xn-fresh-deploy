@@ -1,3 +1,0 @@
-Optional: place driver .exe or .msi installers here, then select Run local driver packages in PC Setup.
-
-Only use driver installers downloaded from your hardware manufacturer's official website.

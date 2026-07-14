@@ -1,9 +1,0 @@
-XN FRESH DEPLOY 3.10
-
-1. Extract this entire folder. Do not run it from inside the ZIP.
-2. Keep every file and subfolder together.
-3. Put the folder somewhere writable, such as Documents, Desktop, another drive, or a USB stick.
-4. Double-click Xn-Setup.bat.
-5. Review every switch before starting PC setup.
-
-Only 7-Zip is selected by default in the optional app list. Read README.md for server profiles, packs, ReShade manager, backups, and safety details.
