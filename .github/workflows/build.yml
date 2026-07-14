@@ -1,0 +1,39 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Self test
+        run: dotnet run --project XnFreshDeploy.Native/XnFreshDeploy.Native.csproj -c Release -- --self-test
+
+      - name: Integration test
+        run: |
+          dotnet publish XnFreshDeploy.Native/XnFreshDeploy.Native.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o publish-test
+          ./publish-test/XnFreshDeploy.exe --integration-test
+
+      - name: Package release ZIP
+        shell: pwsh
+        run: ./Build-NativeRelease.ps1 -Version 4.1 -SkipIntegrationTest
+
+      - name: Upload built ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: XnFreshDeploy-v4.1-windows-x64
+          path: XnFreshDeploy-v4.1.zip
+          retention-days: 90

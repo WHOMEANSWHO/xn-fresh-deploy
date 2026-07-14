@@ -6,12 +6,14 @@ Native Windows app for FiveM server profiles, safe soundpack/ReShade switching, 
 
 ## Download
 
-Get the latest release from [GitHub Releases](https://github.com/WHOMEANSWHO/xn-fresh-deploy/releases).
+**[Download XnFreshDeploy v4.1 (ZIP)](https://github.com/WHOMEANSWHO/xn-fresh-deploy/releases/download/v4.1/XnFreshDeploy-v4.1.zip)** — ~58 MB, Windows 10/11 64-bit
 
-Verify the EXE hash against `SHA256SUMS.txt` inside the ZIP.
+Or browse all releases: https://github.com/WHOMEANSWHO/xn-fresh-deploy/releases
+
+Verify the EXE hash against `SHA256SUMS.txt` inside the ZIP:
 
 ```
-42F0407E88982840724E3ED409D2E92B5C4DE86681E2171CF865B6F8EA828CD5  XnFreshDeploy.exe
+5B417D9C12102FF1CAD40E9CE6159C105E6A4F2B15880F68874889580532FE0A  XnFreshDeploy.exe
 ```
 
 ## Quick start
