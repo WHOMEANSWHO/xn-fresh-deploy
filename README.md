@@ -15,7 +15,7 @@ Or browse all releases: https://github.com/WHOMEANSWHO/xn-fresh-deploy/releases
 Verify the EXE hash against `SHA256SUMS.txt` inside the ZIP:
 
 ```
-5B417D9C12102FF1CAD40E9CE6159C105E6A4F2B15880F68874889580532FE0A  XnFreshDeploy.exe
+16AEA5546E8D21BD83B616553B250AE54E5CDD9BABA883CDD16DBF65A1D03F19  XnFreshDeploy.exe
 ```
 
 ## Quick start
